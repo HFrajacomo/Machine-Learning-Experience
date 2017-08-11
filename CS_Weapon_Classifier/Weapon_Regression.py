@@ -48,8 +48,13 @@ for LearningCoeficient in C_range:
 
 knn = KNeighborsClassifier(n_neighbors = scores.index(max(scores)) + 1)
 
-file2 = open("Learning_History.txt", "a")
-file2.write("Test Score: " + str(max(scores)) + "\n")
+if(not os.path.isfile("Learning_History.txt")): 
+	file2 = open("Learning_History.txt", "w")
+	file2.write("score_value\n")
+else:
+	file2 = open("Learning_History.txt", "a")
+
+file2.write(str(max(scores)) + "\n")
 file2.close()
 
 
@@ -104,4 +109,5 @@ if(args.learning):
 	else:
 		os.system("copy /A "+ str(argTable) +" + tmp.txt /B "+ str(argTable))
 		os.system("del tmp.txt /Q")
+
 
