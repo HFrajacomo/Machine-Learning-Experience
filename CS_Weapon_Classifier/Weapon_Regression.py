@@ -8,6 +8,7 @@ from MiraPlotting import miraplot_knn
 import os
 import random as rd
 import argparse
+from datetime import datetime
 
 parser = argparse.ArgumentParser(description='Trains a ML algorithm to better predict weapon type based on statiscs', add_help=True)
 parser.add_argument('-t','--tabular', dest='tabular', type=str, help='File containing all info', required=True)
@@ -30,7 +31,7 @@ y = weapon['weapon_id']
 label = setList(list((weapon['weapon_type'].values)))
 LearningCoeficient = 0
 
-X_train, X_test, y_train, y_test = train_test_split(X,y, random_state=rd.randrange(0,1000))
+X_train, X_test, y_train, y_test = train_test_split(X,y, random_state=int(datetime.now().timestamp()))
 
 lookup_weapon_name = dict(zip(weapon.weapon_id.unique(), weapon.weapon_type.unique()))
 
@@ -48,11 +49,11 @@ for LearningCoeficient in C_range:
 
 knn = KNeighborsClassifier(n_neighbors = scores.index(max(scores)) + 1)
 
-if(not os.path.isfile("Learning_History.txt")): 
-	file2 = open("Learning_History.txt", "w")
+if(not os.path.isfile("Learning_History_" + str(argTable))): 
+	file2 = open("Learning_History_" + str(argTable), "w")
 	file2.write("score_value\n")
 else:
-	file2 = open("Learning_History.txt", "a")
+	file2 = open("Learning_History_" + str(argTable), "a")
 
 file2.write(str(max(scores)) + "\n")
 file2.close()
